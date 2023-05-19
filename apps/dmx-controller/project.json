@@ -1,0 +1,64 @@
+{
+  "name": "dmx-controller",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/dmx-controller/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/dmx-controller",
+        "main": "apps/dmx-controller/src/main.ts",
+        "tsConfig": "apps/dmx-controller/tsconfig.app.json",
+        "assets": ["apps/dmx-controller/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/dmx-controller/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "dmx-controller:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "dmx-controller:build:development"
+        },
+        "production": {
+          "buildTarget": "dmx-controller:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/dmx-controller/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/dmx-controller/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
